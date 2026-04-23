@@ -1,19 +1,25 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { Search, Star, Clock, Users, ArrowRight, Filter } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
-export default function CoursesPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function CoursesPage() {
+  const { data: courses, error } = await supabase
+    .from('courses')
+    .select('*')
+    .eq('is_published', true);
+
   return (
     <main className="bg-surface min-h-screen">
       <Navbar />
       
       <div className="pt-32 pb-24 px-6 max-w-7xl mx-auto relative overflow-hidden">
-        {/* Decorative 3D Shapes */}
         <div className="absolute -top-10 -right-20 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl -z-10" />
         <div className="absolute top-1/3 -left-20 w-80 h-80 bg-secondary-container/20 rounded-full blur-3xl -z-10" />
         
         <div className="flex flex-col lg:flex-row gap-12">
-          {/* Side Filter Sidebar */}
           <aside className="w-full lg:w-80 shrink-0">
             <div className="sticky top-32 space-y-8">
               <div className="p-8 neo-out rounded-3xl bg-surface-container-lowest">
@@ -21,7 +27,6 @@ export default function CoursesPage() {
                   <Filter className="w-5 h-5" /> Filters
                 </h2>
                 
-                {/* Search Bar */}
                 <div className="mb-8">
                   <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3 ml-1">Search Course</label>
                   <div className="relative">
@@ -33,78 +38,40 @@ export default function CoursesPage() {
                     <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-outline w-5 h-5" />
                   </div>
                 </div>
-
-                {/* Categories */}
-                <div className="mb-8">
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4 ml-1">Category</label>
-                  <div className="flex flex-col gap-3">
-                    {["Science & Tech", "Humanities", "Business", "Arts & Design"].map((cat) => (
-                      <label key={cat} className="flex items-center gap-3 cursor-pointer group">
-                        <div className="w-6 h-6 neo-in rounded-lg flex items-center justify-center text-primary transition-all group-hover:scale-110">
-                          {cat === "Science & Tech" && <div className="w-3 h-3 bg-primary rounded-sm" />}
-                        </div>
-                        <span className="text-on-surface">{cat}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Promo Card */}
-              <div className="p-8 bg-gradient-to-br from-amber-600 to-yellow-500 rounded-3xl shadow-xl text-white relative overflow-hidden group">
-                <div className="relative z-10">
-                  <h3 className="text-lg font-bold mb-2">Academic Excellence</h3>
-                  <p className="text-sm opacity-90 mb-4">Enroll today and get access to exclusive library resources.</p>
-                  <button className="bg-white text-amber-600 px-6 py-2 rounded-xl font-bold text-sm hover:scale-105 transition-transform cursor-pointer">
-                    Learn More
-                  </button>
-                </div>
               </div>
             </div>
           </aside>
 
-          {/* Course Grid Content */}
           <section className="flex-1">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
-              <div>
-                <h1 className="text-5xl font-bold text-on-background mb-2">Available Courses</h1>
-                <p className="text-on-surface-variant text-lg">Explore our selection of premium academic programs.</p>
-              </div>
+            <div className="mb-12">
+              <h1 className="text-5xl font-bold text-on-background mb-2">Available Courses</h1>
+              <p className="text-on-surface-variant text-lg">Explore our selection of premium academic programs.</p>
             </div>
 
+            {error && (
+              <div className="p-6 bg-red-50 text-red-600 rounded-2xl mb-8">
+                Error loading courses: {error.message}
+              </div>
+            )}
+
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-              <CourseCard 
-                title="Advanced Quantum Physics & Mechanics"
-                category="Science"
-                price="₹12,499"
-                rating="4.9"
-                duration="12 Weeks"
-                students="150+"
-              />
-              <CourseCard 
-                title="Modern Literary Analysis & Criticism"
-                category="Humanities"
-                price="₹8,999"
-                rating="4.8"
-                duration="8 Weeks"
-                students="85+"
-              />
-              <CourseCard 
-                title="Digital Entrepreneurship Masterclass"
-                category="Business"
-                price="₹15,000"
-                rating="5.0"
-                duration="16 Weeks"
-                students="210+"
-              />
-              <CourseCard 
-                title="Visual Arts: Foundations of Modernism"
-                category="Arts"
-                price="₹6,499"
-                rating="4.7"
-                duration="6 Weeks"
-                students="50+"
-              />
+              {courses && courses.length > 0 ? (
+                courses.map((course: any) => (
+                  <CourseCard 
+                    key={course.id}
+                    title={course.title}
+                    category={course.category}
+                    price={`₹${course.price.toLocaleString()}`}
+                    rating="4.9"
+                    duration={course.duration}
+                    students="100+"
+                  />
+                ))
+              ) : (
+                <div className="col-span-full py-24 text-center">
+                  <p className="text-on-surface-variant text-xl">No courses found. Add some in the Supabase SQL Editor!</p>
+                </div>
+              )}
             </div>
           </section>
         </div>
