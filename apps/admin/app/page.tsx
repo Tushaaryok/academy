@@ -3,7 +3,7 @@
 import React from "react";
 import { 
   TrendingUp, Users, Wallet, Calendar, 
-  Search, Notifications, Edit, Trash2,
+  Search, Bell, Edit, Trash2,
   UserPlus, RefreshCw 
 } from "lucide-react";
 import { cn } from "@/packages/lib/utils";
@@ -44,7 +44,7 @@ export default function AdminDashboard() {
             />
           </div>
           <button className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer">
-            <Notifications className="w-5 h-5" />
+            <Bell className="w-5 h-5" />
           </button>
         </div>
       </header>

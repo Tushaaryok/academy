@@ -1,7 +1,7 @@
 import React from "react";
 import { 
-  Rocket, Notifications, User, 
-  ArrowForward, Globe, Mail, Share 
+  Rocket, User, 
+  ArrowRight, Globe, Mail, Share 
 } from "lucide-react";
 import Link from "next/link";
 
@@ -101,7 +101,7 @@ export default function EliteLanding() {
               <h2 className="text-5xl font-black tracking-tighter uppercase">Specialized Disciplines</h2>
             </div>
             <Link href="/courses" className="text-slate-500 font-bold text-xs uppercase tracking-widest flex items-center gap-2 group hover:text-white transition-colors">
-              Explore all 24 courses <ArrowForward className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Explore all 24 courses <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 

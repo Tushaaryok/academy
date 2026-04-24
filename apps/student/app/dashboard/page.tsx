@@ -3,7 +3,7 @@
 import React from "react";
 import { 
   CalendarCheck, ShieldCheck, Video, 
-  ClipboardList, Clock, Search, Notifications 
+  ClipboardList, Clock, Search, Bell 
 } from "lucide-react";
 import { cn } from "@/packages/lib/utils";
 
@@ -20,7 +20,7 @@ export default function StudentDashboard() {
             <Search className="w-5 h-5" />
           </button>
           <button className="w-12 h-12 glass-panel rounded-full flex items-center justify-center text-slate-300 hover:text-cyan-400 transition-all cursor-pointer relative">
-            <Notifications className="w-5 h-5" />
+            <Bell className="w-5 h-5" />
             <span className="absolute top-3 right-3 w-2 h-2 bg-red-500 rounded-full animate-ping" />
           </button>
         </div>

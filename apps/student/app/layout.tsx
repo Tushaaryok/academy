@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, CalendarDays, Receipt, 
-  Video, Settings, ContactSupport, LogOut,
+  Video, Settings, LogOut,
   School
 } from "lucide-react";
 import { cn } from "@/packages/lib/utils";
